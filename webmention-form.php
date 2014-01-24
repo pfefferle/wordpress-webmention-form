@@ -17,11 +17,11 @@ add_action('init', 'webmention_form_init');
 
 function webmention_form() {
   ?>
-  <form action="<?php echo site_url('?webmention=endpoint'); ?>" method="post">
-    <label for="source"><?php _e('Responding with a post on your own blog? Send me a <a href="http://indiewebcamp.com/webmention">WebMention</a> <sup>(<a href="http://adactio.com/journal/6469/">?</a>)</sup>', 'webmention_form'); ?></label>
-    <input type="url" name="source" placeholder="URL/Permalink of your article" />
-    <input type="submit" name="Submit" />
-    <input type="hidden" name="target" value="<?php the_permalink(); ?>" />
+  <form id="webmention-form" action="<?php echo site_url('?webmention=endpoint'); ?>" method="post">
+    <label for="webmention-source"><?php _e('Responding with a post on your own blog? Send me a <a href="http://indiewebcamp.com/webmention">WebMention</a> <sup>(<a href="http://adactio.com/journal/6469/">?</a>)</sup>', 'webmention_form'); ?></label>
+    <input id="webmention-source" type="url" name="source" placeholder="URL/Permalink of your article" />
+    <input id="webmention-submit" type="submit" name="submit" value="Ping me!" />
+    <input id="webmention-target" type="hidden" name="target" value="<?php the_permalink(); ?>" />
   </form>
   <?php
 }
