@@ -1,19 +1,18 @@
 <?php
-/*
- Plugin Name: WebMention Form
- Plugin URI: http://github.com/pfefferle/wordpress-webmention-form
- Description: Send WebMentions via a "comment" like form
- Author: Matthias Pfefferle
- Author URI: http://notizblog.org
- Version: 1.0.0-dev
- License: GPL v3 (http://www.gnu.org/licenses/gpl.html)
- Text Domain: webmention_form
-*/
-
-if (!class_exists('WebMentionFormPlugin')) :
+/**
+ * Plugin Name: WebMention form
+ * Plugin URI: http://github.com/pfefferle/wordpress-webmention-form
+ * Description: Send WebMentions via a "comment" like form
+ * Author: Matthias Pfefferle
+ * Author URI: http://notizblog.org
+ * Version: 1.1.0
+ * License: GPL v3
+ * License URI: http://www.gnu.org/licenses/gpl.html
+ * Text Domain: webmention_form
+ */
 
 // initialize plugin
-add_action('init', array('WebMentionFormPlugin', 'init'));
+add_action( 'init', array( 'WebMentionFormPlugin', 'init' ) );
 
 /**
  * WebMention Form Plugin Class
@@ -22,30 +21,35 @@ add_action('init', array('WebMentionFormPlugin', 'init'));
  */
 class WebMentionFormPlugin {
 
-  /**
-   * initialize the plugin, registering WordPress hooks.
-   */
-  public static function init() {
-    add_action('comment_form_after', array('WebMentionFormPlugin', 'form'), 11);
-  }
+	/**
+	 * initialize the plugin, registering WordPress hooks.
+	 */
+	public static function init() {
+		add_action( 'comment_form_after', array( 'WebMentionFormPlugin', 'comment_form' ), 11 );
+		add_action( 'parse_query', array( 'WebMentionFormPlugin', 'endpoint_form' ) );
+	}
 
-  /**
-   * render the form
-   */
-  public static function form() {
-  ?>
-    <form id="webmention-form" action="<?php echo site_url('?webmention=endpoint'); ?>" method="post">
-      <p>
-        <label for="webmention-source"><?php _e('Responding with a post on your own blog? Send me a <a href="http://indiewebcamp.com/webmention">WebMention</a> <sup>(<a href="http://adactio.com/journal/6469/">?</a>)</sup>', 'webmention_form'); ?></label>
-        <input id="webmention-source" type="url" name="source" placeholder="URL/Permalink of your article" />
-      </p>
-      <p>
-        <input id="webmention-submit" type="submit" name="submit" value="Ping me!" />
-      </p>
-      <input id="webmention-target" type="hidden" name="target" value="<?php the_permalink(); ?>" />
-    </form>
-  <?php
-  }
+	/**
+	 * render the comment form
+	 */
+	public static function comment_form() {
+		load_template( dirname( __FILE__ ) . '/webmention-comment-form-template.php' );
+	}
+
+	/**
+	 * render the endpoint form
+	 *
+	 * @param WP $wp
+	 */
+	public static function endpoint_form( $wp ) {
+		// check if it is a webmention request or not
+		if ( ! array_key_exists( 'webmention', $wp->query_vars ) ) {
+			return;
+		}
+
+		if ( 'GET' === $_SERVER['REQUEST_METHOD'] ) {
+			load_template( dirname( __FILE__ ) . '/webmention-form-template.php' );
+			exit;
+		}
+	}
 }
-
-endif;
