@@ -9,7 +9,7 @@
 	<body>
 		<h1><?php _e( 'Send a WebMention', 'webmention_form' ); ?></h1>
 		<p>
-			<?php _e( 'Responding with a post on your own blog? Send me a <a href="http://indiewebcamp.com/webmention">WebMention</a> <sup>(<a href="http://adactio.com/journal/6469/">?</a>)</sup>', 'webmention_form' ); ?>
+			<?php _e( 'Responding with a post on your own blog? Send me a <a href="http://indieweb.org/webmention">WebMention</a> by writing something on your website that links to this post and then enter your post URL below.', 'webmention_form' ); ?>
 		</p>
 
 		<?php do_action( 'webmention_form_before_form' ); ?>
