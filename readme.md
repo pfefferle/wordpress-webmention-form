@@ -1,3 +1,8 @@
+![project status: inactive](https://img.shields.io/badge/project_status-inactive-red.svg?style=flat)
+
+The plugin was merged into the [WebMention plugin](https://github.com/pfefferle/wordpress-webmention).
+
+----
 
 ## Description ##
 Allow users to comment on their own website and post it to your site using <a href="https://indieweb.org/webmention">WebMentions</a> via a "comment" like form:
